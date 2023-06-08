@@ -1,0 +1,80 @@
+version: '3'
+services:
+
+  nodejs:
+    container_name: node-api
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./nodejs:/app
+    ports:
+      - ${EXPRESS_PORT}:${EXPRESS_PORT}
+    environment:
+      - MONGO_USER=${MONGODB_USER}
+      - MONGO_PASSWORD=${MONGODB_PASSWORD}
+      - MONGO_HOST=${MONGO_DB_HOST}
+      - MONGO_PORT=${MONGODB_DOCKER_PORT}
+      - MONGO_SERVER=${MONGO_DB_SERVER}
+      - MONGO_DATABASE=${MONGO_DB_NAME}
+      - EXPRESS_PORT=${EXPRESS_PORT}
+      - EXPRESS_SOCKET_PORT=${EXPRESS_SOCKET_PORT}
+    depends_on:
+      - mongodb
+
+  flask:
+    build:
+      context: .
+      dockerfile: flask/Dockerfile
+    volumes:
+      - ./flask:/flask
+    environment:
+      - FLASK_PORT=${FLASK_PORT}
+      - FLASK_HOST=${FLASK_HOST}
+      - REACT_APP_SERVER_URL=${MONGO_DB_HOST}:${EXPRESS_PORT}
+    ports:
+      - ${FLASK_PORT}:${FLASK_PORT}
+
+  # client:
+  #   stdin_open: true
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./client
+  #   ports:
+  #     - ${REACT_PORT}:${REACT_PORT}
+  #   environment:
+  #     - EXPRESS_PORT=${EXPRESS_PORT}
+  #     - EXPRESS_SOCKET_PORT=${EXPRESS_SOCKET_PORT}
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./client:/app
+
+
+  mongodb:
+    image: mongo
+    ports:
+      - ${MONGODB_DOCKER_PORT}:${MONGODB_DOCKER_PORT}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+    volumes:
+      - db:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
+    depends_on:
+        - mongodb
+    environment:
+      - ME_CONFIG_MONGO_DB_ADMINUSERNAME=${MONGODB_USER}
+      - ME_CONFIG_MONGO_DB_ADMINPASSWORD=${MONGODB_PASSWORD}
+      - ME_CONFIG_MONGO_DB_SERVER=${MONGO_DB_SERVER}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PASSWORD}
+      - ME_CONFIG_MONGODB_URL="${MONGO_DB_SERVER}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGO_DB_HOST}:${MONGODB_DOCKER_PORT}"
+
+volumes:
+  db:

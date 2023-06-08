@@ -1,0 +1,143 @@
+// Includes
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+
+// Variables
+$icon_size: 0.7rem; // 32px @ 16px default rem size
+$icon_color: #333;
+$icon_color_hover: #111;
+$icon_color_checked: #0B9981;
+
+$max_expansion: 10rem; // 16*16 = 256px => max width of expansion, directly relates to the transition timing length
+$menu_text_size: 0.7rem; // size of the menu text
+$menu_text_color: #333;
+$menu_bg: #fff;
+
+$menu_item_padding: 0.7rem;
+$menu_item_bg: none;
+$menu_item_bg_hover: #fff;
+$menu_item_bg_checked: #fff;
+
+$menu_border_radius: $icon_size/4;
+
+.menu {
+	font-family: arial;
+	background: $menu_bg;
+	// font-size: 0.0001rem; // fix for inline-block spacing "glitch"
+	//overflow: hidden;
+	display: table;
+	position: relative;
+	margin: 0 $menu_border_radius;
+	box-shadow: 0 $icon_size/1.5 $icon_size*3 rgba(0,0,0,0.2);
+	&:before, &:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: $menu_border_radius;
+		background: $menu_bg;
+	}
+	&:before {
+		left: -$menu_border_radius;
+		border-radius: $menu_border_radius 0 0 $menu_border_radius;
+	}
+	&:after {
+		right: -$menu_border_radius;
+		border-radius: 0 $menu_border_radius $menu_border_radius 0;
+	}
+}
+.menu_item {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	color: $icon_color;
+	font-size: $menu_text_size;
+	//margin-right: 0.5rem;
+
+	&:last-child {
+		margin-right: 0;
+	}
+
+	.toggle {
+		display: none;
+		&:checked ~ {
+			& .expander {		
+				max-width: $max_expansion;			
+				background: $menu_item_bg_checked;
+				.menu_icon {
+					color: $icon_color_checked;
+					animation: none;		
+				} 
+				.menu_text {
+					color: $menu_text_color;
+				}
+			}
+		}		
+	}
+	.expander {
+		max-width: $icon_size;
+		overflow: hidden;
+		transition: all ease-in-out 233ms;
+		padding: $menu_item_padding;
+		padding-right: $menu_item_padding;
+		&:hover {
+			background: $menu_item_bg_hover;
+			.menu_icon {
+				color: $icon_color_hover;
+				animation: jiggle ease-in-out 200ms infinite;
+			}
+		}
+	}
+	label {
+		line-height: $icon_size;
+	}
+	.menu_icon {
+		display: inline-block;
+		font-size: $icon_size;
+		line-height: $icon_size;
+		vertical-align: middle;
+		width: $icon_size;
+		text-align: center;
+		margin-right: 0.5rem;
+		transition: color ease-in-out 80ms;
+	}
+	.menu_text {
+		line-height: $icon_size;
+		color: transparent;
+		display: inline-block;
+		vertical-align: middle;
+		padding-right: $menu_item_padding;
+		transition: color ease-out 200ms;
+	}
+}
+.menu_title {
+	color: $menu_text_color;
+	font-size: $menu_text_size;
+	display: block;
+	float: left;
+	line-height: $icon_size;
+	padding: $menu_item_padding;
+}
+.positioner {
+	display: table;
+	margin: 0 auto;
+	margin-top: calc(50vh - #{$icon_size + $menu_item_padding/2});
+	position: absolute;
+	top: 100px;
+	right: 100px;
+	z-index: 99999;
+}
+@keyframes jiggle {
+	0% {
+		transform: none;
+	}
+	25% {
+		transform: rotateZ(5deg);;
+	}
+
+	75% {
+		transform: rotateZ(-5deg)
+	}
+	100% {
+		transform: none;
+	}
+}
