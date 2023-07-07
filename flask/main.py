@@ -1,10 +1,6 @@
 import numpy as np
-
 from datetime import date
-
 today = date.today()
-
-
 lev = []
 testarray = []
 lastIndex = 0
@@ -13,14 +9,10 @@ tradingRangeH = []
 tradingRangeL = []
 demandzonevalues = []
 supplyzonevalues = []
-
 bosLL = []
 bosHH = []
-
 impLL = []
 impHH = []
-
-
 def runforlows(candleSet, runningIndex, depth):
     bosfill = 0
     cl = 0
@@ -29,11 +21,9 @@ def runforlows(candleSet, runningIndex, depth):
     depth = depth
     runningIndex = runningIndex
     for i in range(runningIndex, len(candleSet) - 1):
-
         if len(lev) >= 2 and lev[-2][1] > candleSet['Low'][i] and bosfill != 1:
             breakofstructureLL(candleSet, candleSet.iloc[i], i)
             bosfill = 1
-
         if finalLow > candleSet['Low'][i] or finalLow == candleSet['Low'][i]:
             finalLow = candleSet['Low'][i]
             flI = i
@@ -48,8 +38,6 @@ def runforlows(candleSet, runningIndex, depth):
             else:
                 # print("More lower candles found")
                 cl = cl - 1
-
-
 def runforhigs(candleSet, runningIndex, depth):
     bosfill = 0
     ch = 0
@@ -58,11 +46,9 @@ def runforhigs(candleSet, runningIndex, depth):
     depth = depth
     runningIndex = runningIndex
     for i in range(runningIndex, len(candleSet)):
-
         if len(lev) >= 2 and lev[-2][1] < candleSet['High'][i] and bosfill != 1:
             breakofstructureHH(candleSet, candleSet.iloc[i], i)
             bosfill = 1
-
         if finalHigh < candleSet['High'][i] or finalHigh == candleSet['High'][i]:
             finalHigh = candleSet['High'][i]
             flH = i
@@ -76,8 +62,7 @@ def runforhigs(candleSet, runningIndex, depth):
                 return flH + 1
             else:
                 ch = ch - 1
-
-
+                
 def checkcandles(candle):
     # print("Got candle, Checking")
     if candle['Open'] < candle['Close']:
@@ -85,20 +70,16 @@ def checkcandles(candle):
 
     elif candle['Open'] > candle['Close']:
         return "Red"
-
-
+    
 def breakofstructureHH(candleSet, candle, i):
-
     getdemandzones(candleSet, lev[-1][0], i)
     getimpulsivemovement(candleSet, lev[-2][0], lev[-1][0], 'Buy', i)
     bosHH.append((lev[-2][0], lev[-2][1], i, lev[-2][1]))
-
 
 def breakofstructureLL(candleSet, candle, i):
     getsupplyzones(candleSet, lev[-1][0], i)
     getimpulsivemovement(candleSet, lev[-2][0], lev[-1][0], 'Sell', i)
     bosLL.append((lev[-2][0], lev[-2][1], i, lev[-2][1]))
-
 
 def getimpulsivemovement(candleSet, bcslowIndex, bcshighIndex, str, bosIndex):
     if str == 'Buy':
@@ -109,7 +90,6 @@ def getimpulsivemovement(candleSet, bcslowIndex, bcshighIndex, str, bosIndex):
         for i in range(bcshighIndex, bosIndex):
             if candleSet['Low'][i] > candleSet['High'][i + 2]:
                 impLL.append((i, candleSet['Low'][i], i + 2, candleSet['High'][i + 2]))
-
 
 def getdemandzones(candleSet, bcslowIndex, j):
     # print("DZ", bcslowIndex)
@@ -126,7 +106,6 @@ def getdemandzones(candleSet, bcslowIndex, j):
         if brcheck == 0:
             demandzonevalues.append(
                 (bcslowIndex, candleSet['High'][bcslowIndex], len(candleSet) - 1, candleSet['Low'][bcslowIndex]))
-
     elif checkcandles(candleSet.iloc[bcslowIndex - 1]) == "Red" and brcheck != 1:  # Considering the previous candle
         for i in range(j + 1, len(candleSet) - 1):
             if candleSet['High'][bcslowIndex - 1] > candleSet['Low'][i]:  # Not valid demand zone
@@ -199,7 +178,6 @@ def gettradingrange(candleSet, bcshighIndex, bcslowIndex, str):
         else:
             tradingRangeH.append((bcshighIndex, candleSet['High'][bcshighIndex]))
             tradingRangeL.append((bcslowIndex, candleSet['Low'][bcslowIndex]))
-
     else:
         if len(tradingRangeH) != 0 and len(tradingRangeL) != 0:
             del tradingRangeH[-1]
@@ -210,11 +188,9 @@ def gettradingrange(candleSet, bcshighIndex, bcslowIndex, str):
             tradingRangeH.append((bcshighIndex, candleSet['Low'][bcshighIndex]))
             tradingRangeL.append((bcslowIndex, candleSet['High'][bcslowIndex]))
 
-
 def getmarketstructure(candleSet, depth):
     lastIndex = 0
     runs = 'H'
-
     if len(candleSet) > depth:
         print(len(candleSet), 'candles length')
         last5LowCandles = (np.array(candleSet['Low']))[:depth]
@@ -240,16 +216,13 @@ def getmarketstructure(candleSet, depth):
                 # print("Failed to Find HIGHS OR LOWS", runs)
                 # runs = 'L'  # Shifting the run
                 if runs == "H":
-                    runs = "L"
-                else:
-                    runs = "H"
-                if runs == "H":
                     last5HighCandles = (np.array(candleSet['High']))[-depth:]
                     last5High = np.max(last5HighCandles)
                     last5HighIndex = np.where(last5HighCandles == last5High)[0][0]
                     if last5High != lev[-1][1]:
                         lev.append((len(candleSet) - depth + last5HighIndex, last5High))
                         testarray.append((len(candleSet) - depth + last5HighIndex, last5High, "HIGH"))
+                    runs = "L"
                 else:
                     # print("Failed to Find HIGHS OR LOWS", runs)
                     last5LowCandles = (np.array(candleSet['Low']))[-depth:]
@@ -258,24 +231,14 @@ def getmarketstructure(candleSet, depth):
                     if last5Low != lev[-1][1]:
                         lev.append((len(candleSet) - depth + last5LowIndex, last5Low))
                         testarray.append((len(candleSet) - depth + last5LowIndex, last5Low, "LOW"))
+                    runs = "H"
                 break
-
 
 def main(candleSet, depth):
     print("Getting SMC data.............!")
     getmarketstructure(candleSet, depth)
 
-    global lev
-    global testarray
-    global demandzonevalues
-    global supplyzonevalues
-    global bosHH
-    global bosLL
-    global tradingRangeH
-    global tradingRangeL
-    global impHH
-    global impLL
-
+    global lev, testarray, demandzonevalues, supplyzonevalues, bosHH, bosLL, tradingRangeH, tradingRangeL, impHH, impLL
     rcandleSet = candleSet
     rlev = lev
     rtestarray = testarray
@@ -287,7 +250,6 @@ def main(candleSet, depth):
     rtradingRangeL = tradingRangeL
     rimpHH = impHH
     rimpLL = impLL
-
     lev = []
     testarray = []
     demandzonevalues = []
@@ -298,5 +260,4 @@ def main(candleSet, depth):
     tradingRangeL = []
     impHH = []
     impLL = []
-
     return rcandleSet, rlev, rtestarray, rdemandzonevalues, rsupplyzonevalues, rbosHH, rbosLL, rtradingRangeH, rtradingRangeL, rimpHH, rimpLL

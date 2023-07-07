@@ -11,6 +11,7 @@ services:
       - ./nodejs:/app
     ports:
       - ${EXPRESS_PORT}:${EXPRESS_PORT}
+      - ${EXPRESS_SOCKET_PORT}:${EXPRESS_SOCKET_PORT}
     environment:
       - MONGO_USER=${MONGODB_USER}
       - MONGO_PASSWORD=${MONGODB_PASSWORD}
@@ -49,7 +50,6 @@ services:
   #   volumes:
   #     - /app/node_modules
   #     - ./client:/app
-
 
   mongodb:
     image: mongo
