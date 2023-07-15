@@ -362,6 +362,22 @@ app.get('/resolveSymbol/', function (req, res) {
 });
 
 
+
+app.get('/searchIndicator/', function (req, res) {
+
+  //const client = new TradingView.Client(); // Creates a websocket client
+  //const chart = new client.Session.Chart(); // Init a Chart session
+
+  searchterm = req.query.symbol.toString()
+
+  TradingView.searchIndicator(searchterm).then((rs) => {
+    console.log('Found Indicators:', rs);
+    res.send(rs);
+  });
+});
+
+
+
 app.get('/getFVG/', function (req, res) {
   symbol = req.query.symbol.toString();
   tf = req.query.tf.toString();
@@ -442,6 +458,7 @@ app.get('/getQML/', function (req, res) {
     res.send(...err)
   });
 });
+
 
 server.listen(() => console.log('WebSocket listening at', 8888));
 app.listen(process.env.PORT || 8080, console.log("Http server listening at", 8000));
