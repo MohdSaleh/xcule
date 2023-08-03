@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+	
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		
+		<link rel="manifest" href="/site.webmanifest">
 		<script src="%PUBLIC_URL%/datafeeds/udf/dist/bundle.js"></script>
-		<title>Charting Library React Demo</title>
+		<script type="module">
+			// Import the functions you need from the SDKs you need
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+			import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-analytics.js";
+			// TODO: Add SDKs for Firebase products that you want to use
+			// https://firebase.google.com/docs/web/setup#available-libraries
+		  
+			// Your web app's Firebase configuration
+			// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+			const firebaseConfig = {
+			  apiKey: "AIzaSyCZC3_tW0qz3EXnrj0MR2MUwoM8to3aLzA",
+			  authDomain: "xculewebapp.firebaseapp.com",
+			  projectId: "xculewebapp",
+			  storageBucket: "xculewebapp.appspot.com",
+			  messagingSenderId: "493422102147",
+			  appId: "1:493422102147:web:eb4207636ff0bc6ef0bdb6",
+			  measurementId: "G-L5B96PEBZ4"
+			};
+		  
+			// Initialize Firebase
+			const app = initializeApp(firebaseConfig);
+			const analytics = getAnalytics(app);
+		  </script>
+		<title>Xcule</title>
+		<!-- <style>
+			@font-face {
+			  font-family: 'trebuc';
+			  src: url('fonts/trebuc.ttf') format('truetype');
+			}
+		  </style> -->
+		<!-- <link rel="stylesheet" href="/styles.css"> -->
 	</head>
 	<body>
-		<noscript>
-			You need to enable JavaScript to run this app.
-		</noscript>
 		<div id="root"></div>
-		<!--
-			This HTML file is a template.
-			If you open it directly in the browser, you will see an empty page.
-
-			You can add webfonts, meta tags, or analytics to this file.
-			The build step will place the bundled scripts into the <body> tag.
-
-			To begin the development, run `npm start`.
-			To create a production bundle, use `npm run build`.
-		-->
 	</body>
+
+
 </html>

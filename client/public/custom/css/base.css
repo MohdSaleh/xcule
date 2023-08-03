@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+
+.loading-indicator {
+
+	background-image: url(/assets/xcule_icon.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 33px;
+
+	
+}
+
+.tv-spinner, div[role="progressbar"] {
+	border-top-color: #298678;
+	border-left-color: #298678;
+
+	border-right: unset;
+	border-top: unset;
+
+	left: calc(50% - 0.53em);
+	top: calc(50% - 0.50em);
+
+	font-size: 95px !important;
+	border-width: 5px;
+	
+}
+
+.navbar-replay-icon-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+}
+
+.navbar-replay-icon-container.active {
+	color: #298678;
+}
+
+.navbar-replay-icon-container .replay-icon {
+	height: 23px;
+	width: 26px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(250, 250, 250, 0.65);
+  /* background-color: rgba(41, 134, 120, 0.65); */
+  pointer-events: none; /* Allows mouse events to pass through the overlay */
+	/* border-left: 1px dotted #298678; */
+}
+
+#XCULE-USER {
+	font-family: 'TrebuchetMS-Bold', 'Trebuchet MS', 'Roboto', sans-serif;
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 0.6px;
+	fill: #000000;
+	color: #000000;
+}

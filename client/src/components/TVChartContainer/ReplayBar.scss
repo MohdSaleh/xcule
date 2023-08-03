@@ -39,12 +39,30 @@ $menu_border_radius: $icon_size/4;
 	&:before {
 		left: -$menu_border_radius;
 		border-radius: $menu_border_radius 0 0 $menu_border_radius;
+		
 	}
 	&:after {
 		right: -$menu_border_radius;
 		border-radius: 0 $menu_border_radius $menu_border_radius 0;
 	}
 }
+
+#replayActionButtonMenuContainer.hide {
+	&:before {
+		content: "Please select a bar";
+    width: calc(100% - 35px);
+    text-align: left;
+    line-height: 35px;
+    color: rgba(0,0,0,1);
+    background-color: white;
+    -webkit-user-select: none;
+    user-select: none;
+    font-size: 11.5px;
+    right: 0px;
+    left: unset;
+	}
+}
+
 .menu_item {
 	display: block;
 	float: left;
@@ -122,8 +140,8 @@ $menu_border_radius: $icon_size/4;
 	margin: 0 auto;
 	margin-top: calc(50vh - #{$icon_size + $menu_item_padding/2});
 	position: absolute;
-	top: 100px;
-	right: 100px;
+	top: -40vh;
+	right: 150px;
 	z-index: 99999;
 }
 @keyframes jiggle {

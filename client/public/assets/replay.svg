@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="64"
+   height="70"
+   viewBox="0 0 47.999998 52.499998"
+   preserveAspectRatio="xMidYMid meet"
+   id="svg8"
+   sodipodi:docname="svg-back-doodle-music-rewind-rewind-button-icon-1320165853863835050.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="683"
+     id="namedview10"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="2.765625"
+     inkscape:cx="-28.799231"
+     inkscape:cy="41.735972"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <g
+     transform="matrix(0.00780993,0,0,-0.00780993,4.2463109,45.956335)"
+     id="g6"
+     style="fill:#000000;stroke:none">
+    <path
+       d="m 2943,5090 c -57,-12 -70,-19 -171,-104 C 2561,4810 1867,4128 939,3185 569,2809 496,2721 465,2618 c -19,-64 -19,-148 -1,-191 17,-42 988,-1007 1626,-1617 442,-423 812,-751 886,-787 44,-22 93,-10 133,31 47,49 52,100 16,162 -133,227 -805,1000 -1789,2058 -133,142 -242,261 -244,265 -1,4 120,124 270,267 1353,1287 1868,1798 1920,1901 50,104 18,237 -77,320 -78,68 -148,85 -262,63 z"
+       id="path2"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 4278,4296 c -57,-20 -149,-100 -455,-395 -288,-277 -1131,-1131 -1195,-1212 -45,-54 -77,-124 -78,-163 0,-82 6,-90 389,-458 201,-194 533,-517 736,-718 583,-576 662,-637 731,-556 39,45 32,82 -30,170 -159,221 -543,661 -1100,1261 -132,142 -249,269 -258,281 -18,22 -15,25 385,405 584,557 1093,1064 1117,1114 21,44 26,108 11,148 -16,40 -73,99 -116,118 -47,22 -86,23 -137,5 z"
+       id="path4"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

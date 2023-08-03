@@ -1,39 +1,5 @@
 import { io } from "socket.io-client";
 
-// import { useEffect, useState } from "react";
-
-// export default function SubscribeBarsData({subscribeUID, symbolInfo, interval}, callback){
-//      const {boom, setBoom} = useState()
-
-//     var socket = io(`ws://127.0.0.1:8888/`,{
-//         query: {
-//             "symbol": symbolInfo.ticker,
-//             "tf": interval
-//         },
-//         transports: ["websocket"],
-//         autoConnect: false
-//     });
-//     socket.connect()
-
-//     return socket.on('feed', (data) => {
-//         return callback (data.live)
-//      })
-
-
-// //     return socket.on('feed', (data) => {
-// //         const i = data.live
-        // return ({
-        //            time: i.time * 1000,
-        //            open: parseFloat(i.open),
-        //            high: parseFloat(i.max),
-        //            low: parseFloat(i.min),
-        //            close: parseFloat(i.close),
-        //            volume: parseFloat(i.volume)
-        //        })
-// //   })
-
-// }
-
 const channelToSubscription = new Map();
 let ticker
 let tf

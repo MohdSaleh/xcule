@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js --exitcrash"
   },
   "dependencies": {
     "@mathieuc/tradingview": "github:Mathieu2301/TradingView-API",

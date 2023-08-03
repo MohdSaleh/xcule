@@ -1,32 +1,39 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import './Login.css'
+// import './Login.css'
+import './Login.scss'
 import './Intro.css'
 import { TVChartContainer } from './components/TVChartContainer/index';
-import { TVChartContainerX } from './components/TVChartContainerX/index';
 import { version } from './charting_library';
 import ReactModal from 'react-modal';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+function togglePasswordVisibility() {
+	const passwordInput = document.getElementById('password');
+	const togglePassword = document.querySelector('.toggle-password');
+	
+	if (passwordInput.type === 'password') {
+	  passwordInput.type = 'text';
+	  togglePassword.style.backgroundImage = "url('eye.png')";
+	} else {
+	  passwordInput.type = 'password';
+	  togglePassword.style.backgroundImage = "url('view.png')";
+	}
+  }
 
 
 const App = () => {
 
 	const [login, setLogin] = useState(true)
-	const [username, setUserName] = useState('xcule')
-	const [password, setPassword] = useState('123123')
+	const [username, setUserName] = useState('')
+	const [password, setPassword] = useState('')
 	const [loader, setLoader] = useState(true)
 	// const [rMode, setRmode] = useState(false)
 
 	useEffect(()=>{
-
-	// const replayModeLocalVar = localStorage.getItem('replayMode')
-	// if(replayModeLocalVar){
-	// 	setRmode(true)
-	// 	console.log("REPLAY MODE: ", replayModeLocalVar)
-	// }else{
-	// 	setRmode(false)
-	// 	console.log("REPLAY MODE: ", replayModeLocalVar)
-	// }
 
 	const value = localStorage.getItem('xtoken')
 	if(value){
@@ -42,28 +49,29 @@ const App = () => {
 
 
 	const onLoginClick = ()=>{
-
-		console.log("BOOOOOOOOM")
-
+		let toastID = toast.loading('Loggin in...')
 		if(username.length > 0  && password.length > 0){
 			const info = { username: username, password: password };
-			axios.post(`${'http://localhost:8080'}/signIn/`, info)
+			axios.post('http://127.0.0.1:8080/signIn/', info)
 				.then(response => {
 					console.log(response.data)
 					localStorage.setItem('xtoken', response.data.token)
 					localStorage.setItem('userID', response.data.id)
+					localStorage.setItem('userName', response.data.username)
 					setLogin(false)
+					toast.update(toastID, { render: "Success", type: "success", isLoading: false, autoClose: 2000, icon: "✅" });
 				}).catch((e)=>{
-					alert('Something Went Wrong!')
-				});
-		}else{
-
-			alert('Invalid Credentials', username, password)
+					console.log(e)
+					toast.update(toastID, { render: "Something went wrong!", type: "error", isLoading: false, autoClose: 2000, icon: "❌" });	
+				})
+		}else {
+				toast.update(toastID, { render: "Invalid Username or Password!", type: "error", isLoading: false, autoClose: 2000, icon: "❌" });					
 		}
 	}
 
 	const introView = ()=>{
 		return (
+			<div id='intro-body'>
 				<svg xmlnsXlink="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 400">
 
 
@@ -87,6 +95,7 @@ const App = () => {
 						></use>
 
 				</svg>
+			</div>
 		)
 	}
 
@@ -98,37 +107,46 @@ const App = () => {
 		}else{
 			return (
 			<>
-				<div className="wrapper" id='outPopUp'>
-					<div className="card-switch">
-
-						<div className="flip-card__inner">
-							<div className="flip-card__front">
-								<div className="title">WELCOME</div>
-
-
-									<input className="flip-card__input" name="username" placeholder="Username" type="text" value={username} onChange={(t)=> setUserName(t.target.value)}/>
-									<input className="flip-card__input" name="password" placeholder="Password" type="password" autoComplete="on" value={password} onChange={(t)=> setPassword(t.target.value)}/>
-									<button className="flip-card__btn"  onClick={()=>onLoginClick()}>Let`s go!</button>
-
-							</div>
+				<div className="login-container login">
+					<div className="logo">
+					<img className="login-logo" src="logo.png" alt="Logo" />
+					</div>
+					<div className="login-form">
+					<h2>Sign in with email</h2>
+					<div className="login-form-group">
+						<label for="email">Email or Username:</label>
+						<input type="text" id="email" name="email" value={username} onChange={(t)=> setUserName(t.target.value)} />
+					</div>
+					<div className="login-form-group">
+						<label for="password">Password:</label>
+						<div className="password-input">
+						<input type="password" id="password" name="password" value={password} onChange={(t)=> setPassword(t.target.value)}/>
+						<span className="toggle-password" onClick={()=>togglePasswordVisibility()}></span>
 						</div>
-
-					</div>   
-				</div>		
+					</div>
+					<div className="login-form-group remember">
+						<input type="checkbox" id="rememberMe" name="rememberMe" />
+						<label for="rememberMe">Remember me</label>
+					</div>
+					<button className="login-btn" onClick={()=>onLoginClick()}>Let`s go!</button>
+					</div>
+				</div>
 			</>	
 			)
 		}
 	}
 
 	return (
+		<>
 		<div className={'App'}>
 			<ReactModal 
 				isOpen={login}
 				// contentLabel="Minimal Modal Example"
-				ariaHideApp={false}
-				id='loginBG'
+				ariaHideApp={true}
+				fullscreen={true}
+				// id='loginBG'
 				style={
-    				{ overlay: {backgroundColor:'white'}, content: {backgroundColor:'white'}}
+    				{ overlay: {backgroundColor:'white'}, content: {backgroundColor:'white', border: '0px'}}
 				}>
 
 				{loginModal()}
@@ -145,6 +163,20 @@ const App = () => {
 				</button>
 			</div>
 		</div>
+
+		<ToastContainer
+			position="top-right"
+			autoClose={3000}
+			hideProgressBar={false}
+			newestOnTop={false}
+			closeOnClick
+			rtl={false}
+			pauseOnFocusLoss
+			draggable
+			pauseOnHover={false}
+			theme="light"
+			/>
+		</>
 	);
 }
 

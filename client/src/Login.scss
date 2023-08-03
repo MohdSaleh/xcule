@@ -1,0 +1,194 @@
+// @import url(./fonts/.css);
+
+.login-container {
+
+    background-color: #ffffff;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, Arial, sans-serif;
+    color: #131722;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  
+    &.login {
+      flex-direction: column;
+  
+  
+      .logo {
+        text-align: center;
+      }
+      
+      .login-logo {
+        height: auto;
+        width: 150px;
+      }
+      
+      .login-form {
+        width: 300px;
+      }
+      
+      .login-form h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+      }
+      
+      .login-form-group {
+        margin-bottom: 20px;
+      
+        &.remember {
+          display: flex;
+          // background-color: cyan; 
+        }
+      
+        &.remember {
+          position: relative;
+          // padding-left: 30px;
+          margin-bottom: 15px;
+        }
+        
+        &.remember input[type="checkbox"] {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 0;
+        }
+        
+        &.remember label {
+          position: relative;
+          cursor: pointer;
+          padding-left: 30px;
+          padding-top: 6px;
+          // background-color: yellow;
+        }
+        
+        &.remember label::before {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 0;
+          width: 20px;
+          height: 20px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          background-color: #fff;
+        }
+        
+        &.remember label::after {
+          content: "";
+          position: absolute;
+          height: 18px;
+          width: 18px;
+          top: 4px;
+          left: 2px;
+          // width: 8px;
+          // height: 8px;
+          border-radius: 4px;
+          background-color: #2962ff;
+          opacity: 0;
+          transition: opacity 0.2s ease-in-out;
+        }
+        
+        &.remember input[type="checkbox"]:checked + label::after {
+          opacity: 1;
+        }
+        
+        &.remember input[type="checkbox"]:focus + label::before {
+          border-color: #2962ff;
+        }
+        
+      }
+      
+      .login-form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 14px;
+        color: #6a6d78;
+      }
+      
+      .login-form-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid rgba(#a3a6af, 0.7);
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 15px 15px;
+        box-sizing: border-box;
+        // outline: none;
+        transition: 400ms;
+        outline: 2px solid #ffffff;
+      
+        &:focus {
+          border: 1px solid rgba(#a3a6af, 0);
+          outline: 2px solid #2962ff;
+        }
+      }
+      
+      .password-input {
+        position: relative;
+      }
+      
+      .password-input input {
+        padding-right: 35px;
+      }
+      
+      .password-input .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 25px;
+        height: 25px;
+        background-image: url("view.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        cursor: pointer;
+        transition: 400ms;
+      }
+      
+      .login-form-group input[type="checkbox"] {
+        margin-right: 5px;
+      }
+      
+      .login-btn {
+        display: block;
+        width: 100%;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        background-color: #0B9981;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+
+      .login-btn:hover {
+        background-color: #16b096;
+      }
+  
+      
+      
+    }
+    
+  }
+  
+  
+  
+  /* Media queries for responsive design */
+  @media (max-width: 480px) {
+    .login-container {
+      flex-direction: column;
+    }
+  
+    .login-form {
+      width: 90%;
+    }
+  }
+  

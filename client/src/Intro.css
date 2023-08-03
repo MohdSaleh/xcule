@@ -86,11 +86,11 @@
 }
 
 /* Other styles */
-html, body {
+/* html, body {
   height: 100%;
-}
+} */
 
-body {
+#intro-body {
   background: #111;
   background-size: .2em 100%;
   font: 14.5em/1 Open Sans, Impact;

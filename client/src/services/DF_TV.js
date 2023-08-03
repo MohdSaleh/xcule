@@ -1,18 +1,10 @@
 import axios from 'axios';
 import {subscribeOnStream, unsubscribeFromStream} from "./Socket";
-import {RsubscribeOnStream, RunsubscribeFromStream} from "./ReplaySocket";
-// import { io } from "socket.io-client";
-const io = require('socket.io-client');
-import { useEffect, useState } from "react";
 import RM from '../components/TVChartContainer/DFcallsManager'
-// console.log("IO", io)
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const supportedResolutions = [
-	"1S",
-	"5S",
-	"10S",
-	"15S",
-	"30S",
     "1",
     "3",
     "5",
@@ -37,9 +29,10 @@ const configurationData = {
 
 const lastBarsCache = new Map();
 const dataFeedCallBack = new Map();
-let userClient
 
-var historyBars = [];
+let userClient
+let currentSymbolonChart
+let historyBars = [];
 let replayBackBars = [];
 let intervalID;
 // let pendingReplayBarsToGo = [];
@@ -50,7 +43,7 @@ export default {
     cleanReplayStuff,
 
     onReady: (callback) => {
-        console.log('[onReady]: Method call');
+        // console.log('[onReady]: Method call');
 
         const value = localStorage.getItem('xtoken')
         if(value){
@@ -60,7 +53,7 @@ export default {
                     axios.get(`http://127.0.0.1:8080/login?username=${'tugoftrades'}&password=${'toc__123'+'#'}`, config)
                     .then(function (response) {
                         // handle success
-                        console.log(response.data);
+                        // console.log(response.data);
                         userClient = response.data
                         setTimeout(() => callback(configurationData), 1000)
                     })
@@ -72,13 +65,24 @@ export default {
                         window.location.reload(false);
                     }) 
         }else {
-            alert('Welcome Back! Login to access Xcule')
+            // alert('Welcome Back! Login to access Xcule')
+            toast.info('Welcome Back! Login to access Xcule', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+            
         }
     },
 
     // NO need if not using search
     searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
-        console.log('[searchSymbols]: Method call');
+        // console.log('[searchSymbols]: Method call');
         axios.get(`http://127.0.0.1:8080/searchSymbol/?searchKey=${userInput}`)
             .then(function (response) {
                 // handle success
@@ -116,19 +120,19 @@ export default {
 
    // retrieve information about a specific symbol (exchange, price scale, full symbol etc.)
     resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
-        console.log('[resolveSymbol]: Method call', symbolName);
+        // console.log('[resolveSymbol]: Method call', symbolName);
                 // onSymbolResolvedCallback({ ..., has_no_volume: true})
                 axios.get(`http://127.0.0.1:8080/resolveSymbol/?symbol=${symbolName}`)
                 .then(function (response) {
                     // handle success
                     const i = response.data
-
+                    
                     i.ticker = i.legs[0]
                     // i.name = i.legs[0]
                     // i.timezone = "Asia/Kolkata"
                     i.supported_resolutions = configurationData.supported_resolutions
-                    i. has_seconds = true
-                    i.seconds_multipliers = ["1S", "5S", "15S", "30S"]
+                    // i. has_seconds = true
+                    // i.seconds_multipliers = ["1S", "5S", "15S", "30S"]
                     i.intraday_multipliers = ['1', '5', '15', '30', '60', '120', '240']
                     i.has_daily = true
                     i.daily_multipliers=['1']
@@ -140,7 +144,7 @@ export default {
 
                     const symbolInfo = i
 
-                    console.log("SYMBOL INFO AFTER", symbolInfo)
+                    // console.log("SYMBOL INFO AFTER", symbolInfo)
                     // console.log("=================>>>",symbolInfo, "<<<=================");
                     onSymbolResolvedCallback(symbolInfo)
                 })
@@ -154,13 +158,20 @@ export default {
     getBars: (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, subscriberUID) => {
 
         const rMode = RM.ReplayMode.get('replay')
-        const rModeFrom = RM.ReplayMode.get('replayFrom') 
+        const rModeFrom = RM.ReplayMode.get('replayFrom')
+        const rPlayRange = RM.ReplayMode.get('replayRange')
 
-        if(rMode && replayBackBars.length == 0){
-            alert(1)
-            const rPlayRange = RM.ReplayMode.get('replayRange')
+
+        if(currentSymbolonChart !== symbolInfo.ticker+resolution){
+            historyBars = []
+            replayBackBars = []
+            // console.log("BAR HISTORY CLEARED")
+        }
+
+        if(rMode && replayBackBars.length == 0 && rPlayRange){
+            // console.log("REPLAY MODE ON && NO REPLAY BACK BARS")
             // console.log("===========> BARS", historyBars, "==> REPLAY BARS", replayBackBars, rPlayRange)
-            replayBackBars = [...historyBars]
+            replayBackBars = historyBars
             replayBackBars = replayBackBars.slice(0, -rPlayRange)
             onHistoryCallback(replayBackBars, { noData: false });
             lastBarsCache.set((symbolInfo.full_name).toString(), { ...replayBackBars.reverse()[replayBackBars.length - 1] });
@@ -175,28 +186,31 @@ export default {
         //     return;
         // }
 
-        if(!rMode && rModeFrom !== null && rModeFrom <= Date.now()/1000 ){
-            alert(rModeFrom)
+        if(!rMode && rModeFrom !== null && rModeFrom <= Date.now() ){
+            // console.log("REPLAY MODE OFF && REPLAY FROM TIME EXPIRED")
+            // alert(rModeFrom)
             RM.ReplayMode.set('replayFrom', null)
             const barReplayState = dataFeedCallBack.get('barReplayState')
             onHistoryCallback(historyBars, {noData: false})
-            var historyBars = []
+            // historyBars = []
+            // RM.ReplayMode.set('replay', true)
             barReplayState(false)
-            console.log("CHART RESETING PROCESS COMPLETED......100%")
+            // console.log("CHART RESETING PROCESS COMPLETED......100%")
             return;
         }
 
+        currentSymbolonChart = symbolInfo.ticker+resolution
+        // console.log(currentSymbolonChart, "CURRENT SYMBOL ON CHART")
         axios.get(`http://127.0.0.1:8080/getBars/?symbol=${symbolInfo.ticker}&tf=${resolution}&range=${periodParams.countBack}&to=${periodParams.to}&usr=${userClient.session}`)
         .then((response)=>{
 
                 if(!response.data.length){
-                    console.log("NO DATA ON REQUESTED TIME")
+                    // console.log("NO DATA ON REQUESTED TIME")
                     onHistoryCallback([], { noData:true })
                     return;
                 }else{
 
                     let bars = [];
-
                     response.data.reverse().map(i => {
                             bars = [...bars, {
                                 time: i.time * 1000,
@@ -211,7 +225,7 @@ export default {
                      historyBars = bars.concat(historyBars)
 
                      onHistoryCallback(bars, {noData:false})
-                     console.log(`[getBars]: returned ${bars.length} bar(s)`);
+                    //  console.log(`[getBars]: returned ${bars.length} bar(s)`);
                      
 
                     if (periodParams.firstDataRequest) {
@@ -253,7 +267,7 @@ export default {
             if(rPlayMode){
                 axios.get(`http://127.0.0.1:8080/getReplayBars/?symbol=${symbolInfo.ticker}&tf=${interval}&range=${rPlayRange}&to=${rModeFrom}&usr=${userClient.session}`)
                 .then((response)=>{
-                    console.log("====>",response.data)
+                    // console.log("====>",response.data)
                     let rbars = [];
                     response.data.map(i => {
                             rbars = [...rbars, {
@@ -303,7 +317,7 @@ export default {
 
         // вызывается для отписки от стрима
     unsubscribeBars: (subscriberUID) => {
-        console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+        // console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
         unsubscribeFromStream(subscriberUID);
     },
 
@@ -314,11 +328,11 @@ export default {
 };
 
 function cleanReplayStuff(reset){
-    alert(5)
+    // alert(5)
     RM.ReplayMode.set('replay', false)
     RM.ReplayMode.set('replayPause', true)
     RM.ReplayMode.set('replayRange', null)
-    RM.ReplayMode.set('replayFrom', Date.now()/1000)
+    RM.ReplayMode.set('replayFrom', Date.now())
     RM.ReplayMode.set('replayStart', false)
     const cbReset = dataFeedCallBack.get('restCache')
     let tvC =  dataFeedCallBack.get('tvWidget')
@@ -333,6 +347,6 @@ function cleanReplayStuff(reset){
         cbReset()
         tvC.chart().resetData()
     }
-    tvC.applyOverrides({'mainSeriesProperties.showCountdown' : true, 'mainSeriesProperties.showPriceLine': true}) 
-    console.log("CHART RESETING PROCESS COMPLETED......50%")
+    tvC.applyOverrides({'mainSeriesProperties.showCountdown' : true, 'mainSeriesProperties.showPriceLine': true, 'scalesProperties.showTimeScaleCrosshairLabel': false}) 
+    // console.log("CHART RESETING PROCESS......50%")
 }

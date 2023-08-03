@@ -74,7 +74,7 @@ const getLiveFeedData = ({data, socket}, callback) => {
     callback(socketChart[data.uid].periods[0]);
   });
   socketChart[data.uid].onError((...err) => {
-    socketChart[data.uid].end();
+    socketClient[data.uid].end();
     return console.error(new Error("DATA Error"));
   });
 }
@@ -353,7 +353,6 @@ app.get('/resolveSymbol/', function (req, res) {
     res.send(chart.infos)
     client.end()
   })
-  
   chart.onError((...err) => { // Listen for errors (can avoid crash)
     console.error("Chart error: ===================>", ...err)
     res.status(500).send(err.message)
@@ -453,8 +452,43 @@ app.get('/getQML/', function (req, res) {
     console.log('CHART error:', ...err);
     res.send(...err)
   });
-  QML.onError((...err) => {
-    console.log('Study error:', ...err);
+});
+
+app.get('/getDFXT/', function (req, res) {
+  const symbol = req.query.symbol.toString();
+  const tf = req.query.tf.toString();
+  const barCount = parseInt(req.query.barCount);
+  const toTime = parseInt(req.query.to);
+  console.log("DFXT CALL", symbol, tf);
+  const client = new TradingView.Client(); // Creates a websocket client
+  const chart = new client.Session.Chart(); // Init a Chart session
+  chart.setMarket(symbol, {
+    timeframe: tf,
+    range: 10000,
+    to: toTime
+  });
+  TradingView.getIndicator('PUB;83e1f1ebd7644c08a746acfc4261e8cb', 'last').then((indic) => {
+    // indic.setOption(0, 5);
+    const DFXT = new chart.Study(indic);
+    DFXT.onReady(() => {
+      console.log(`DFXT' Loaded !`);
+    });
+    DFXT.onUpdate((v) => {
+      if (!v[0]) return;
+      console.log('Graphic data:', DFXT.graphic.length);
+      res.send(DFXT.graphic)
+      client.end()
+    });
+    DFXT.onError((...err) => {
+      console.log('Study error:', ...err);
+      res.send(...err)
+    });
+  }).catch((err)=>{
+    res.send(err.message)
+    client.end();
+  });
+  chart.onError((...err) => {
+    console.log('CHART error:', ...err);
     res.send(...err)
   });
 });
