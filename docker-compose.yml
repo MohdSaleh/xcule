@@ -9,6 +9,8 @@ services:
     volumes:
       - /app/node_modules
       - ./nodejs:/app
+    networks:
+      - letsencrypt-docker-compose
     ports:
       - ${EXPRESS_PORT}:${EXPRESS_PORT}
       - ${EXPRESS_SOCKET_PORT}:${EXPRESS_SOCKET_PORT}
@@ -30,6 +32,8 @@ services:
       dockerfile: flask/Dockerfile
     volumes:
       - ./flask:/flask
+    networks:
+      - letsencrypt-docker-compose
     environment:
       - FLASK_PORT=${FLASK_PORT}
       - FLASK_HOST=${FLASK_HOST}
@@ -78,3 +82,8 @@ services:
 
 volumes:
   db:
+
+networks:
+  letsencrypt-docker-compose:
+    name: letsencrypt-docker-compose_default
+    external: true
