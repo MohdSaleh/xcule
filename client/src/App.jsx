@@ -52,7 +52,7 @@ const App = () => {
 		let toastID = toast.loading('Loggin in...')
 		if(username.length > 0  && password.length > 0){
 			const info = { username: username, password: password };
-			axios.post('http://127.0.0.1:8080/signIn/', info)
+			axios.post('https://tvd.xcule.com/signIn/', info)
 				.then(response => {
 					console.log(response.data)
 					localStorage.setItem('xtoken', response.data.token)

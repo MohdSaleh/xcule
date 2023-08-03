@@ -50,7 +50,7 @@ export default {
             const config = {
                 headers: { Authorization: `Bearer ${value}` }
             };
-                    axios.get(`http://127.0.0.1:8080/login?username=${'tugoftrades'}&password=${'toc__123'+'#'}`, config)
+                    axios.get(`https://tvd.xcule.com/login?username=${'tugoftrades'}&password=${'toc__123'+'#'}`, config)
                     .then(function (response) {
                         // handle success
                         // console.log(response.data);
@@ -83,7 +83,7 @@ export default {
     // NO need if not using search
     searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
         // console.log('[searchSymbols]: Method call');
-        axios.get(`http://127.0.0.1:8080/searchSymbol/?searchKey=${userInput}`)
+        axios.get(`https://tvd.xcule.com/searchSymbol/?searchKey=${userInput}`)
             .then(function (response) {
                 // handle success
                 // console.log("RESOLVE SYMBOL RESPONSE: ", response.data);
@@ -122,7 +122,7 @@ export default {
     resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
         // console.log('[resolveSymbol]: Method call', symbolName);
                 // onSymbolResolvedCallback({ ..., has_no_volume: true})
-                axios.get(`http://127.0.0.1:8080/resolveSymbol/?symbol=${symbolName}`)
+                axios.get(`https://tvd.xcule.com/resolveSymbol/?symbol=${symbolName}`)
                 .then(function (response) {
                     // handle success
                     const i = response.data
@@ -201,7 +201,7 @@ export default {
 
         currentSymbolonChart = symbolInfo.ticker+resolution
         // console.log(currentSymbolonChart, "CURRENT SYMBOL ON CHART")
-        axios.get(`http://127.0.0.1:8080/getBars/?symbol=${symbolInfo.ticker}&tf=${resolution}&range=${periodParams.countBack}&to=${periodParams.to}&usr=${userClient.session}`)
+        axios.get(`https://tvd.xcule.com/getBars/?symbol=${symbolInfo.ticker}&tf=${resolution}&range=${periodParams.countBack}&to=${periodParams.to}&usr=${userClient.session}`)
         .then((response)=>{
 
                 if(!response.data.length){
@@ -265,7 +265,7 @@ export default {
             // let rModeBarCallBack = RM.ReplayMode.get('replayBarCallBack')
             
             if(rPlayMode){
-                axios.get(`http://127.0.0.1:8080/getReplayBars/?symbol=${symbolInfo.ticker}&tf=${interval}&range=${rPlayRange}&to=${rModeFrom}&usr=${userClient.session}`)
+                axios.get(`https://tvd.xcule.com/getReplayBars/?symbol=${symbolInfo.ticker}&tf=${interval}&range=${rPlayRange}&to=${rModeFrom}&usr=${userClient.session}`)
                 .then((response)=>{
                     // console.log("====>",response.data)
                     let rbars = [];

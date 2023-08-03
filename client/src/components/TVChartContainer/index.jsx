@@ -123,7 +123,8 @@ export const TVChartContainer = () => {
 			autosize: defaultProps.autosize,
 			studies_overrides: defaultProps.studiesOverrides,
 			supported_resolutions: defaultProps.supportedResolutions,
-			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+			// timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+			timezone: 'Asia/Kolkata',
 			widgetbar: defaultProps.widgetbar,
 			overrides: defaultProps.overrides,
 			auto_save_delay: 5,
@@ -606,7 +607,7 @@ export const TVChartContainer = () => {
 		let toastID = toast.loading('Loading QML Values...')
 		console.log("TO CANDLE TIME: ", toTime)
 
-		axios.get(`http://127.0.0.1:8080/getQML/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
+		axios.get(`https://tvd.xcule.com/getQML/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
 				console.log("QML VALUES", response.data)
@@ -655,7 +656,7 @@ export const TVChartContainer = () => {
 		let toastID = toast.loading('Loading DFXT Values...')
 		console.log("GET DFXT DATA: ")
 
-		axios.get(`http://127.0.0.1:8080/getDFXT/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
+		axios.get(`https://tvd.xcule.com/getDFXT/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
 				console.log("DFXT VALUES", response.data)
@@ -795,7 +796,7 @@ export const TVChartContainer = () => {
 		let toastID = toast.loading("Loading FVG Values...");
 		console.log("TO CANDLE TIME: ", toTime)
 
-		axios.get(`http://127.0.0.1:8080/getFVG/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
+		axios.get(`https://tvd.xcule.com/getFVG/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
 				console.log("FVG VALUES", response.data)
@@ -885,7 +886,7 @@ export const TVChartContainer = () => {
 		let toastID = toast.loading("Analysing...")
 		let { symbol, interval } = tvWidget.symbolInterval()
 		settingUpTfMarker(intervl ? intervl : interval, 1)
-		axios.get(`http://127.0.0.1:9000/history?symbol=${symbol}&tf=${intervl ? intervl : interval}&depth=${valueDepth}`)
+		axios.get(`https://core.xcule.com/history?symbol=${symbol}&tf=${intervl ? intervl : interval}&depth=${valueDepth}`)
 			.then((response) => {
 				console.log("SMC", response.data)
 				let smclevels = response.data.levels.slice(-30).reverse()

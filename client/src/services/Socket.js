@@ -14,7 +14,7 @@ function getNextDailyBarTime(barTime) {
     return date.getTime() / 1000;
 }
 
-const socket = io(`http://127.0.0.1:8888/`,{});
+const socket = io(`https://live.xcule.com/`,{});
 
 socket.on('connect', (sockett) => {
     // console.log('[socket] Connected', socket.id);
