@@ -54,7 +54,7 @@ const App = () => {
 			const info = { username: username, password: password };
 			axios.post('https://tvd.xcule.com/signIn/', info)
 				.then(response => {
-					console.log(response.data)
+					// console.log(response.data)
 					localStorage.setItem('xtoken', response.data.token)
 					localStorage.setItem('userID', response.data.id)
 					localStorage.setItem('userName', response.data.username)

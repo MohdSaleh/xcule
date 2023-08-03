@@ -391,7 +391,7 @@ export const TVChartContainer = () => {
 				if (tvWidget.chart().isSelectBarRequested()) {
 					tvWidget.chart().cancelSelectBar()
 				}
-				console.log("BEFORE REPLAY MODE", barReplay)
+				// console.log("BEFORE REPLAY MODE", barReplay)
 				setBarReplay(!barReplay)
 				buttonReplayMode.innerHTML = `<span class="navbar-replay-icon-container active"><img class="replay-icon" src="/assets/replay_active.svg">Replay</span>`
 				DataFeed.dataFeedCallBack.set('tvWidget', tvWidget)
@@ -407,7 +407,7 @@ export const TVChartContainer = () => {
 					if (tvWidget.chart().isSelectBarRequested()) {
 						tvWidget.chart().cancelSelectBar()
 					};
-					console.log("AFTER REPLAY MODE", barReplay)
+					// console.log("AFTER REPLAY MODE", barReplay)
 					startOverlayListener()
 					
 					try {
@@ -504,7 +504,7 @@ export const TVChartContainer = () => {
 					iframeDocument.removeEventListener('click', removeOverlayListener);
 					document.removeEventListener('click', removeOverlayListener);
 				} catch (e) {
-					console.log("###e: existing overlay remove :>", e);
+					// console.log("###e: existing overlay remove :>", e);
 				}
 			});
 		}
@@ -520,7 +520,7 @@ export const TVChartContainer = () => {
 			try {
 				replayNavButton = iframeDocument.querySelector("#navbar-replay-button").parentNode.parentNode;
 			} catch (e) {
-				console.log("Exception on replayNavButton: ", e);
+				// console.log("Exception on replayNavButton: ", e);
 				replayNavButton = false;
 			}
 
@@ -533,7 +533,7 @@ export const TVChartContainer = () => {
 					iframeDocument.removeEventListener('click', removeOverlayListener);
 					document.removeEventListener('click', removeOverlayListener);
 				} catch (e) {
-					console.log("###e: overlay listener remove :>", e);
+					// console.log("###e: overlay listener remove :>", e);
 				}
 			}
 		};
@@ -605,18 +605,18 @@ export const TVChartContainer = () => {
 		let totalBars = tvWidget.activeChart().getSeries().barsCount()
 		let toTime = tvWidget.activeChart().getSeries().data().bars().last().value[0]
 		let toastID = toast.loading('Loading QML Values...')
-		console.log("TO CANDLE TIME: ", toTime)
+		// console.log("TO CANDLE TIME: ", toTime)
 
 		axios.get(`https://tvd.xcule.com/getQML/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
-				console.log("QML VALUES", response.data)
+				// console.log("QML VALUES", response.data)
 				let qmlevels = response.data.lines.reverse()
 				drawQMLevels(tvWidget, qmlevels, interval)
 			})
 			.catch(function (error) {
 				// handle error
-				console.log("API==>", error);
+				console.log("QML==>", error);
 			}).finally(() => {
 				toast.update(toastID, { render: "QML", type: "success", isLoading: false, autoClose: 2000, icon: "👌" });
 			})
@@ -654,12 +654,12 @@ export const TVChartContainer = () => {
 		let totalBars = tvWidget.activeChart().getSeries().barsCount()
 		let toTime = tvWidget.activeChart().getSeries().data().bars().last().value[0]
 		let toastID = toast.loading('Loading DFXT Values...')
-		console.log("GET DFXT DATA: ")
+		// console.log("GET DFXT DATA: ")
 
 		axios.get(`https://tvd.xcule.com/getDFXT/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
-				console.log("DFXT VALUES", response.data)
+				// console.log("DFXT VALUES", response.data)
 				let indicatorName = 'DFXT'
 				let linesValues = response.data.lines.reverse()
 				let boxesValues = response.data.boxes.reverse()
@@ -670,14 +670,14 @@ export const TVChartContainer = () => {
 			})
 			.catch(function (error) {
 				// handle error
-				console.log("API==>", error);
+				console.log("DFXT==>", error);
 			}).finally(() => {
 				toast.update(toastID, { render: "DFXT", type: "success", isLoading: false, autoClose: 2000, icon: "👌" });
 			})
 	}
 
 	const drawIndicatorLines = (tvWidget, linesValues, interval, indicatorName) => {
-		console.log("DRW DFXT LINES")
+		// console.log("DRW DFXT LINES")
 		let groupId = null
 		const grpName = indicatorName
 		const totalBars = tvWidget.activeChart().getSeries().barsCount()
@@ -707,7 +707,7 @@ export const TVChartContainer = () => {
 	}
 
 	const drawIndicatorLabels = (tvWidget, labelValues, interval, indicatorName) => {
-		console.log("DRW DFXT LINES")
+		// console.log("DRW DFXT LINES")
 		let groupId = null
 		const grpName = indicatorName
 		// const totalBars = tvWidget.activeChart().getSeries().barsCount()
@@ -741,7 +741,7 @@ export const TVChartContainer = () => {
 	}
 
 	const drawIndicatorBoxes = (tvWidget, boxesValues, interval, indicatorName) => {
-		console.log("DRW DFXT BOXES")
+		// console.log("DRW DFXT BOXES")
 		let groupId = null
 		let shapeId = null
 		// let textId = null
@@ -794,18 +794,18 @@ export const TVChartContainer = () => {
 		let totalBars = tvWidget.activeChart().getSeries().barsCount()
 		let toTime = tvWidget.activeChart().getSeries().data().bars().last().value[0]
 		let toastID = toast.loading("Loading FVG Values...");
-		console.log("TO CANDLE TIME: ", toTime)
+		// console.log("TO CANDLE TIME: ", toTime)
 
 		axios.get(`https://tvd.xcule.com/getFVG/?symbol=${symbol}&tf=${interval}&barCount=${totalBars}&to=${toTime}`)
 			.then(function (response) {
 				// handle success
-				console.log("FVG VALUES", response.data)
+				// console.log("FVG VALUES", response.data)
 				const fvglevels = response.data.boxes.reverse()
 				drawFVGLevels(tvWidget, fvglevels, interval)
 			})
 			.catch(function (error) {
 				// handle error
-				console.log("API==>", error);
+				console.log("FVG==>", error);
 			}).finally(()=>{
 				toast.update(toastID, { render: "FVG", type: "success", isLoading: false, autoClose: 2000, icon: "👌" });
 			})
@@ -821,7 +821,7 @@ export const TVChartContainer = () => {
 		const tfDiffer = tvWidget.activeChart().getSeries().data().bars().last().value[0] - tvWidget.activeChart().getSeries().data().bars().valueAt(totalBars - 2)[0]
 
 
-		console.log("===>", tfDiffer, lastBarTime)
+		// console.log("===>", tfDiffer, lastBarTime)
 
 		fvglevels.map((it, i) => {
 
@@ -888,7 +888,7 @@ export const TVChartContainer = () => {
 		settingUpTfMarker(intervl ? intervl : interval, 1)
 		axios.get(`https://core.xcule.com/history?symbol=${symbol}&tf=${intervl ? intervl : interval}&depth=${valueDepth}`)
 			.then((response) => {
-				console.log("SMC", response.data)
+				// console.log("SMC", response.data)
 				let smclevels = response.data.levels.slice(-30).reverse()
 				let dzlevels = response.data.zoneD.slice(-25).reverse()
 				let szlevels = response.data.zoneS.slice(-25).reverse()
@@ -916,10 +916,10 @@ export const TVChartContainer = () => {
 			const drawDZLevelsCall = drawDZLevels(tvWidget, dzlevels, interval)
 			const drawSZLevelsCall = drawSZLevels(tvWidget, szlevels, interval)
 			const drawBOSLevelsCall = drawBOSLevels(tvWidget, boslevels, interval)
-			console.log("ON THE FLY")
+			// console.log("ON THE FLY")
 		}).finally(() => {
 			tvWidget.activeChart().restoreChart();
-			console.log("EVERYTHING ALRIGHT")
+			// console.log("EVERYTHING ALRIGHT")
 		});
 	}
 
