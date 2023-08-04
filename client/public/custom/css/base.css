@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('/custom/css/nouislider.min.css');
 
 
 .loading-indicator {
@@ -42,6 +43,23 @@
 	width: 26px;
 }
 
+.navbar-depth-icon-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+}
+
+.navbar-depth-icon-container.active {
+	color: #298678;
+}
+
+.navbar-depth-icon-container .depth-icon {
+	margin-right: 5px;
+	height: 23px;
+	width: 26px;
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -61,3 +79,4 @@
 	fill: #000000;
 	color: #000000;
 }
+
