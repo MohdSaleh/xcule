@@ -18,6 +18,9 @@ Dive deep into the world of technical analysis with our advanced features tailor
 
 Check out our demo video on YouTube: [Xcule Features Video](https://youtu.be/oFk-KcKAiCI)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oFk-KcKAiCI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 ## Getting Started
 
 ### Prerequisites
