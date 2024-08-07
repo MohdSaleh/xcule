@@ -104,7 +104,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Ryan Saleh - [@ryansaleh](https://www.linkedin.com/in/ryan-saleh-84b73885/) - hello@ryansaleh.com
 
-Project Link: [https://github.com/yourusername/xcule](https://github.com/MohdSaleh/xcule)
+Project Link: [https://github.com/MohdSaleh/xcule](https://github.com/MohdSaleh/xcule)
 
 ## Acknowledgements
 
