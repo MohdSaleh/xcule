@@ -7,12 +7,19 @@ Dive deep into the world of technical analysis with our advanced features tailor
 
 ## Features
 
-- **Real-time market data & multiple chart views**
-- **Built-in indicators** like RSI, EMA, MACD, Bollinger Bands, and more!
-- **Effortlessly draw Market Structure, BOS, and view Supply and Demand zones** with the SMC visualizer
-- **Uncover fair value gaps and market manipulations** using the ICT visualizer
-- **Test and refine your trading strategies** by replaying candle bars – available even in 1, 3, and 5-minute timeframes!
-- **Automated SMC chart drawing capability** for SMC traders
+- **Trading Analysis Tool:** Designed specifically for SMC (Smart Money Concepts) traders.
+- **Real-time Market Data:** Integrated with real-time market data for up-to-date analysis.
+- **Multiple Chart Views:** Supports multiple chart views for comprehensive analysis.
+- **Easy Drawing of Market Structures:** Allows users to easily draw market structures, Points of Control (POS), demand and supply zones.
+- **Remove Unwanted Drawings:** Ability to remove unwanted drawings from the object tree.
+- **SMC Drawing Across Time Frames:** Draw SMC structures for all time frames inside one chart.
+- **Combine SMC Drawings:** Draw SMC structures at different time frames (e.g., 30 minutes and 15 minutes) into one-hour charts.
+- **Fair Value Gaps (FVG):** Draw fair value gaps of any time frame and view them inside one-hour charts.
+- **Lower Time Frame Analysis:** Analyze fair value gaps and manipulations in lower time frames like 5 minutes, 3 minutes, and 1 minute.
+- **Manipulation Drawing:** Draw market manipulations for different time frames (e.g., one-minute manipulations inside one-hour charts).
+- **Replay Mode for Strategy Testing:** Test trading strategies using replay mode, even in smaller time frames like 5 minutes, 3 minutes, and 1 minute.
+- **Comprehensive Tool:** All features are integrated into one comprehensive tool for seamless analysis.
+
 
 ## Demo
 
